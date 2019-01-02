@@ -13,54 +13,54 @@ import com.awave.wrkout.db.DbInjection
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment: Fragment(), LoginContract.View {
-    override lateinit var presenter: LoginContract.Presenter
+  override lateinit var presenter: LoginContract.Presenter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        presenter = LoginPresenter(this, context, fragmentManager, DbInjection.provideUserDao(context!!))
-        return inflater.inflate(R.layout.fragment_login, container, false)
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    presenter = LoginPresenter(this, context, fragmentManager, DbInjection.provideUserDao(context!!))
+    return inflater.inflate(R.layout.fragment_login, container, false)
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    var isTrainer = false
+
+    trainerSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+      isTrainer = isChecked
+      if (isChecked) {
+        emailInputContainer.visibility = View.VISIBLE
+        usernameInputContainer.visibility = View.GONE
+      } else {
+        emailInputContainer.visibility = View.GONE
+        usernameInputContainer.visibility = View.VISIBLE
+      }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    submit.setOnClickListener {
+      val email = getText(emailInputContainer)
+      val username = getText(usernameInputContainer)
+      val password = getText(passwordInputContainer)
 
-        var isTrainer = false
-
-        trainerSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-            isTrainer = isChecked
-            if (isChecked) {
-                emailInputContainer.visibility = View.VISIBLE
-                usernameInputContainer.visibility = View.GONE
-            } else {
-                emailInputContainer.visibility = View.GONE
-                usernameInputContainer.visibility = View.VISIBLE
-            }
+      if (!isTrainer) {
+        if (!username.isNullOrEmpty() && !password.isNullOrEmpty()) {
+          presenter.loginUser(username, password)
+          (activity as AppCompatActivity).supportActionBar?.show()
+        }
+      } else {
+        if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
+          presenter.loginTrainer(email, password)
+          (activity as AppCompatActivity).supportActionBar?.show()
         }
 
-        submit.setOnClickListener {
-            val email = getText(emailInputContainer)
-            val username = getText(usernameInputContainer)
-            val password = getText(passwordInputContainer)
+      }
+    }
+  }
 
-            if (!isTrainer) {
-                if (!username.isNullOrEmpty() && !password.isNullOrEmpty()) {
-                    presenter.loginUser(username, password)
-                    (activity as AppCompatActivity).supportActionBar?.show()
-                }
-            } else {
-                if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
-                    presenter.loginTrainer(email, password)
-                    (activity as AppCompatActivity).supportActionBar?.show()
-                }
-
-            }
-        }
+  private fun getText(inputContainer: TextInputLayout): String? {
+    if (inputContainer.isVisible) {
+      return inputContainer.editText?.text?.toString()
     }
 
-    private fun getText(inputContainer: TextInputLayout): String? {
-        if (inputContainer.isVisible) {
-            return inputContainer.editText?.text?.toString()
-        }
-
-        return null
-    }
+    return null
+  }
 }

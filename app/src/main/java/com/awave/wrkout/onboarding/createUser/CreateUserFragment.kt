@@ -13,70 +13,70 @@ import com.awave.wrkout.db.DbInjection
 import kotlinx.android.synthetic.main.fragment_create_user.*
 
 class CreateUserFragment: Fragment(), CreateUserContract.View {
-    override lateinit var presenter: CreateUserContract.Presenter
+  override lateinit var presenter: CreateUserContract.Presenter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        presenter = CreateUserPresenter(this, context, fragmentManager, DbInjection.provideUserDao(context!!))
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    presenter = CreateUserPresenter(this, context, fragmentManager, DbInjection.provideUserDao(context!!))
 
-        return inflater.inflate(R.layout.fragment_create_user, container, false)
+    return inflater.inflate(R.layout.fragment_create_user, container, false)
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    var isTrainer = false
+
+    trainerSwitch.setOnCheckedChangeListener { _, isChecked ->
+      isTrainer = isChecked
+
+      if (isChecked) {
+        usernameInputContainer.visibility = View.GONE
+        ageInputContainer.visibility = View.GONE
+        weightInputContainer.visibility = View.GONE
+
+        emailInputContainer.visibility = View.VISIBLE
+      } else {
+        usernameInputContainer.visibility = View.VISIBLE
+        ageInputContainer.visibility = View.VISIBLE
+        weightInputContainer.visibility = View.VISIBLE
+
+        emailInputContainer.visibility = View.GONE
+      }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    submit.setOnClickListener {
+      val email = getText(emailInputContainer)
+      val username = getText(usernameInputContainer)
+      val password = getText(passwordInputContainer)
+      val firstName = getText(firstNameInputContainer)
+      val lastName = getText(lastNameInputContainer)
+      val age = getText(ageInputContainer)?.toInt()
+      val weight = getText(weightInputContainer)?.toDouble()
 
-        var isTrainer = false
-
-        trainerSwitch.setOnCheckedChangeListener { _, isChecked ->
-            isTrainer = isChecked
-
-            if (isChecked) {
-                usernameInputContainer.visibility = View.GONE
-                ageInputContainer.visibility = View.GONE
-                weightInputContainer.visibility = View.GONE
-
-                emailInputContainer.visibility = View.VISIBLE
-            } else {
-                usernameInputContainer.visibility = View.VISIBLE
-                ageInputContainer.visibility = View.VISIBLE
-                weightInputContainer.visibility = View.VISIBLE
-
-                emailInputContainer.visibility = View.GONE
-            }
+      if (!isTrainer) {
+        if (!username.isNullOrEmpty() &&
+            !password.isNullOrEmpty() &&
+            !firstName.isNullOrEmpty() && !lastName.isNullOrEmpty() &&
+            age != null && weight != null) {
+          presenter.createUser(username!!, password!!, firstName!!, lastName!!, age, weight)
         }
-
-        submit.setOnClickListener {
-            val email = getText(emailInputContainer)
-            val username = getText(usernameInputContainer)
-            val password = getText(passwordInputContainer)
-            val firstName = getText(firstNameInputContainer)
-            val lastName = getText(lastNameInputContainer)
-            val age = getText(ageInputContainer)?.toInt()
-            val weight = getText(weightInputContainer)?.toDouble()
-
-            if (!isTrainer) {
-                if (!username.isNullOrEmpty() &&
-                    !password.isNullOrEmpty() &&
-                    !firstName.isNullOrEmpty() && !lastName.isNullOrEmpty() &&
-                    age != null && weight != null) {
-                    presenter.createUser(username!!, password!!, firstName!!, lastName!!, age, weight)
-                }
-            } else {
-                if (!email.isNullOrEmpty() &&
-                    !password.isNullOrEmpty() &&
-                    !firstName.isNullOrEmpty() && !lastName.isNullOrEmpty()) {
-                    presenter.createTrainer(email!!, password!!, firstName!!, lastName!!)
-                }
-            }
-
-            (activity as AppCompatActivity).supportActionBar?.show()
+      } else {
+        if (!email.isNullOrEmpty() &&
+            !password.isNullOrEmpty() &&
+            !firstName.isNullOrEmpty() && !lastName.isNullOrEmpty()) {
+          presenter.createTrainer(email!!, password!!, firstName!!, lastName!!)
         }
+      }
+
+      (activity as AppCompatActivity).supportActionBar?.show()
+    }
+  }
+
+  private fun getText(inputContainer: TextInputLayout): String? {
+    if (inputContainer.isVisible) {
+      return inputContainer.editText?.text?.toString()
     }
 
-    private fun getText(inputContainer: TextInputLayout): String? {
-        if (inputContainer.isVisible) {
-            return inputContainer.editText?.text?.toString()
-        }
-
-        return null
-    }
+    return null
+  }
 }
