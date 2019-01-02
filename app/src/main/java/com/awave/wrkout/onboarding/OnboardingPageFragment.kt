@@ -32,13 +32,6 @@ class OnboardingPageFragment : Fragment(), OnboardingPageContract.View {
           ?.addToBackStack(null)
           ?.commit()
     }
-
-    onboardingLoginBtn.setOnClickListener {
-      fragmentManager?.beginTransaction()
-          ?.replace(R.id.container, LoginFragment())
-          ?.addToBackStack(null)
-          ?.commit()
-    }
   }
 
   override fun showText(text: String) {
@@ -47,7 +40,10 @@ class OnboardingPageFragment : Fragment(), OnboardingPageContract.View {
 
   override fun showButtons(position: Int) {
     onboardingStartBtn.visibility = if (position == 2) View.VISIBLE else View.GONE
-    onboardingLoginBtn.visibility = if (position == 2) View.VISIBLE else View.GONE
+  }
+
+  override fun showImage(image: Int) {
+    onboardingIcon.setImageResource(image)
   }
 
   companion object {

@@ -7,6 +7,7 @@ interface OnboardingPageContract {
   interface View : BaseView<Presenter> {
     fun showButtons(position: Int)
     fun showText(text: String)
+    fun showImage(image: Int)
   }
 
   interface Presenter : BasePresenter {
