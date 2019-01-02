@@ -1,55 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
-
-    <ImageView
-        android:id="@+id/onboardingIcon"
-        tools:src="@drawable/ic_heart_24dp"
-        android:layout_above="@id/onboardingMessage"
-        android:layout_marginBottom="64dp"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"/>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/colorPrimary">
 
     <TextView
-        android:id="@+id/onboardingMessage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textAlignment="center"
-        android:textColor="#fff"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        tools:text="Message" />
+      android:id="@+id/onboardingMessage"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:textAlignment="center"
+      android:textSize="24sp"
+      android:textStyle="bold"
+      android:textColor="@color/primaryText"
+      android:gravity="center"
+      tools:text="Message" />
 
     <Button
-        android:id="@+id/onboardingStartBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_below="@id/onboardingMessage"
-        android:layout_centerInParent="true"
-        android:text="@string/onboarding__btn_text"
-        android:visibility="gone"
-        android:elevation="8dp"
-        tools:visibility="visible"/>
+      android:id="@+id/onboardingStartBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="32dp"
+      android:layout_below="@id/onboardingMessage"
+      android:layout_centerInParent="true"
+      android:text="@string/onboarding__btn_text"
+      android:visibility="gone"
+      android:elevation="8dp"
+      tools:visibility="visible"/>
 
     <Button
-        android:id="@+id/onboardingLoginBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_below="@id/onboardingStartBtn"
-        android:layout_centerInParent="true"
-        android:text="@string/onboarding_login_text"
-        android:visibility="gone"
-        android:textColor="#fff"
-        style="?android:attr/borderlessButtonStyle"
-        tools:visibility="visible"/>
-
-
+      android:id="@+id/onboardingLoginBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:layout_below="@id/onboardingStartBtn"
+      android:layout_centerInParent="true"
+      android:text="@string/onboarding_login_text"
+      android:visibility="gone"
+      style="?android:attr/borderlessButtonStyle"
+      tools:visibility="visible"/>
 </RelativeLayout>

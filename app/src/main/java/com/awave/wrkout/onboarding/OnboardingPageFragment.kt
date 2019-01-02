@@ -50,10 +50,6 @@ class OnboardingPageFragment : Fragment(), OnboardingPageContract.View {
     onboardingLoginBtn.visibility = if (position == 2) View.VISIBLE else View.GONE
   }
 
-  override fun showImage(image: Int) {
-    onboardingIcon.setImageResource(image)
-  }
-
   companion object {
     fun newInstance(position: Int) = OnboardingPageFragment().apply {
       arguments = bundleOf(

@@ -10,6 +10,10 @@ import com.awave.wrkout.dashboard.DashboardFragment
 import com.awave.wrkout.onboarding.OnboardingFragment
 import com.awave.wrkout.util.Constants
 import kotlinx.android.synthetic.main.activity_main.*
+import android.view.WindowManager
+import android.os.Build
+
+
 
 class MainActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
